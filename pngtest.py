@@ -3,8 +3,8 @@ import math
 import cmath
 import png
 
-xsize = 64
-ysize = 64
+xsize = 480
+ysize = 640
 
 mu0 = 1.0
 
@@ -58,11 +58,11 @@ def field_profile_and_save(x2_position, filename):
       Bx[i,j] = 0.0
       By[i,j] = 0.0
 
-  points = points_in_sphere(1.5)
+  points = points_in_sphere(3.5)
   for p in points:
-    add_current(Bx,By,24+p[0],24+p[1],1.0/len(points))
+    add_current(Bx,By,96+p[0],96+p[1],1.0/len(points))
 
-  points = points_in_sphere(1.5)
+  points = points_in_sphere(3.5)
   for p in points:
     add_current(Bx,By,x2_position+p[0],x2_position+p[1],-1.0/len(points))
 
@@ -70,10 +70,10 @@ def field_profile_and_save(x2_position, filename):
   a = np.ndarray((xsize,ysize,3), dtype=np.uint8)
   for i in range(xsize):
     for j in range(ysize):
-      a[i,j] = field_to_log_color(1.0, -60, 255, math.sqrt(Bx[i,j]**2 + By[i,j]**2))
+      a[i,j] = field_to_log_color(1.0, -80, 255, math.sqrt(Bx[i,j]**2 + By[i,j]**2))
 
   png.from_array(a, mode='RGB').save(filename)
 
 num_files=100
 for i in range(num_files):
-  field_profile_and_save(24+((i/2.0)+4), '{0:05d}.png'.format(num_files-i-1))
+  field_profile_and_save(96+((i/2.0)**1.5+8), '{0:05d}.png'.format(num_files-i-1))
